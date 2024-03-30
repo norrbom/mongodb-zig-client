@@ -1,0 +1,4 @@
+src/bson/
+src/mongoc/
+zig-cache/
+zig-out/
