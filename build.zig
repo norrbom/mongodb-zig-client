@@ -23,12 +23,11 @@ pub fn build(b: *std.Build) void {
         .target = target,
         .optimize = optimize,
     });
-    exe.addIncludePath(std.build.LazyPath{ .path = "src" });
+    exe.addIncludePath(std.build.LazyPath{ .path = "/usr/include/libmongoc-1.0" });
+    exe.addIncludePath(std.build.LazyPath{ .path = "/usr/include/libbson-1.0" });
     exe.linkSystemLibrary("c");
     exe.linkSystemLibrary("bson-1.0");
     exe.linkSystemLibrary("mongoc-1.0");
-    // exe.linkSystemLibrary2("libbson-static-1.0", .{ .preferred_link_mode = .Static });
-    // exe.linkSystemLibrary2("libmongoc-static-1.0", .{ .preferred_link_mode = .Static });
 
     // This declares intent for the executable to be installed into the
     // standard location when the user invokes the "install" step (the default

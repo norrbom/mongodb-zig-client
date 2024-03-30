@@ -1,20 +1,26 @@
-#  Zig MongoDb Client
+#  Zig MongoDB Client
 
 ## Install MongoDB C Driver
 https://mongoc.org/libmongoc/current/installing.html
 
-## Copy header files
 
-Ubuntu:
+## Link to C libraries
 
-cp -r /usr/include/libbson-1.0/bson ./src/bson
-cp -r /usr/include/libmongoc-1.0/mongoc ./src/mongoc
+Let the `build.zig` know where to find the header files and how to link libc and MongoDB libraries.
+
+On Ubuntu:
+
+exe.addIncludePath(std.build.LazyPath{ .path = "/usr/include/libmongoc-1.0" });
+exe.addIncludePath(std.build.LazyPath{ .path = "/usr/include/libbson-1.0" });
+exe.linkSystemLibrary("c");
+exe.linkSystemLibrary("bson-1.0");
+exe.linkSystemLibrary("mongoc-1.0");
 
 ## Install MongoDB
 
 https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/
 
-Start:
+Start MongoDB
 
 sudo systemctl start mongod
 
