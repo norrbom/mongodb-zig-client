@@ -10,11 +10,13 @@ Let the `build.zig` know where to find the header files and how to link libc and
 
 On Ubuntu:
 
+```zig
 exe.addIncludePath(std.build.LazyPath{ .path = "/usr/include/libmongoc-1.0" });
 exe.addIncludePath(std.build.LazyPath{ .path = "/usr/include/libbson-1.0" });
 exe.linkSystemLibrary("c");
 exe.linkSystemLibrary("bson-1.0");
 exe.linkSystemLibrary("mongoc-1.0");
+```
 
 ## Install MongoDB
 
