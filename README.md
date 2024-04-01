@@ -1,14 +1,20 @@
-#  Zig MongoDB Client
+#  Zig C Driver Wrapper - as a learning exercise
 
-## Install MongoDB C Driver
+Wrapping MongoDB C Driver as an exercise to get familiar with Zig.
+
+- Zig version: 0.11.0
+- OS: Ubuntu 22.04.3 LTS
+
+## Setup
+
+### Install MongoDB C Driver
+
 https://mongoc.org/libmongoc/current/installing.html
 
 
-## Link to C libraries
+### Link to C libraries
 
-Let the `build.zig` know where to find the header files and how to link libc and MongoDB libraries.
-
-On Ubuntu:
+The following lines in `build.zig` where added to let the Zig build system know where to find the header files and how to link libc and the MongoDB libraries.
 
 ```zig
 exe.addIncludePath(std.build.LazyPath{ .path = "/usr/include/libmongoc-1.0" });
@@ -24,8 +30,18 @@ https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/
 
 Start MongoDB
 
+```sh
 sudo systemctl start mongod
+```
+
+## Import the Sample Data Set
+
+```sh
+curl https://raw.githubusercontent.com/mcampo2/mongodb-sample-databases/master/sample_airbnb/listingsAndReviews.json | mongoimport -h localhost:27017 --db sample_airbnb --collection listings
+```
 
 ## Build and run
 
+```sh
 zig build run
+```
