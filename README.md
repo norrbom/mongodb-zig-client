@@ -1,4 +1,4 @@
-#  Zig C Driver Wrapper - as a learning exercise
+#  Zig MongoDB C Driver Wrapper - as a learning exercise
 
 Wrapping MongoDB C Driver as an exercise to get familiar with Zig.
 
