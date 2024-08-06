@@ -1,26 +1,30 @@
-#  Zig MongoDB C Driver Wrapper - as a learning exercise
+# Zig MongoDB C Driver Wrapper
 
-Wrapping MongoDB C Driver as an exercise to get familiar with Zig.
+A Zig example project that wraps MongoDB C Driver libraries.
 
-- Zig version: 0.11.0
+- Zig version: 0.13.0
 - OS: Ubuntu 22.04.3 LTS
 
-## Setup
+## Build and install the C driver libraries
+
+In this step we will download the source code, build and install the two libraries required, libmongoc and libbson.
 
 ### Install CMake from source
+
+MongoDB is using CMake to generate build scripts and configuration.
 
 ```sh
 wget "https://github.com/Kitware/CMake/releases/download/v3.30.2/cmake-3.30.2.tar.gz"
 tar xf "cmake-3.30.2.tar.gz"
 cd cmake-3.30.2
-./bootstrap --prefix=~/.local && make install -j 4
+./bootstrap --prefix=~/.local && make install
 ```
 
-add ~/.local/bin to $PATH
+Add ~/.local/bin to $PATH
 
 ### Install MongoDB C Driver from source
 
-Downloading the source code
+Download and unpack the mongo-c-driver source code.
 
 ```sh
 VERSION=1.27.4
@@ -29,7 +33,7 @@ wget "https://github.com/mongodb/mongo-c-driver/archive/refs/tags/$VERSION.tar.g
 tar xf "mongo-c-driver-$VERSION.tar.gz"
 ```
 
-Configuring for libbson
+Configure for libbson
 
 ```sh
 SOURCE=mongo-c-driver-$VERSION
@@ -48,7 +52,7 @@ Build libbson
 cmake --build $BUILD --config RelWithDebInfo --parallel
 ```
 
-Install libbson
+Install the libbson library under ./mongo folder
 
 ```sh
 PREFIX=mongo
@@ -61,7 +65,7 @@ Configure libmongoc
 cmake -D ENABLE_MONGOC=ON $BUILD
 ```
 
-build and install libmongoc
+Build and install libmongoc under ./mongo folder
 
 ```sh
 cmake --build $BUILD --config RelWithDebInfo --parallel
@@ -69,7 +73,7 @@ PREFIX=mongo
 cmake --install "$BUILD" --prefix "$PREFIX" --config RelWithDebInfo
 ```
 
-### Link to C libraries
+### Link to C libraries during zig build
 
 The following lines in `build.zig` where added to let the Zig build system know where to find the header files and how to link libc and the MongoDB libraries.
 
@@ -83,7 +87,9 @@ exe.addIncludePath(b.path("mongo/include/libbson-1.0"));
 exe.addIncludePath(b.path("mongo/include/libmongoc-1.0"));
 ```
 
-## Install MongoDB
+## Build and run the example code under ./src
+
+### Install MongoDB
 
 https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-ubuntu/
 
@@ -93,13 +99,13 @@ Start MongoDB
 sudo systemctl start mongod
 ```
 
-## Import the Sample Data Set
+Import the Sample Data Set
 
 ```sh
 curl https://raw.githubusercontent.com/mcampo2/mongodb-sample-databases/master/sample_airbnb/listingsAndReviews.json | mongoimport -h localhost:27017 --db sample_airbnb --collection listings
 ```
 
-## Build and run
+### Build and run the example
 
 ```sh
 zig build run
