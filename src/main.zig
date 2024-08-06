@@ -2,8 +2,8 @@ const std = @import("std");
 const print = std.debug.print;
 
 pub const c = @cImport({
-    @cInclude("mongoc/mongoc.h");
-    @cInclude("bson/bson.h");
+    @cInclude("bson.h");
+    @cInclude("mongoc.h");
 });
 
 pub fn main() !void {

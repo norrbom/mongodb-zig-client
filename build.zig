@@ -19,15 +19,18 @@ pub fn build(b: *std.Build) void {
         .name = "mongodb",
         // In this case the main source file is merely a path, however, in more
         // complicated build scripts, this could be a generated file.
-        .root_source_file = .{ .path = "src/main.zig" },
+        .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
-    exe.addIncludePath(std.build.LazyPath{ .path = "/usr/include/libmongoc-1.0" });
-    exe.addIncludePath(std.build.LazyPath{ .path = "/usr/include/libbson-1.0" });
-    exe.linkSystemLibrary("c");
+    exe.addLibraryPath(b.path("mongo/lib"));
     exe.linkSystemLibrary("bson-1.0");
     exe.linkSystemLibrary("mongoc-1.0");
+    exe.linkSystemLibrary("c");
+
+    // Include path to mongo-c-driver header files
+    exe.addIncludePath(b.path("mongo/include/libbson-1.0"));
+    exe.addIncludePath(b.path("mongo/include/libmongoc-1.0"));
 
     // This declares intent for the executable to be installed into the
     // standard location when the user invokes the "install" step (the default
@@ -60,7 +63,7 @@ pub fn build(b: *std.Build) void {
     // Creates a step for unit testing. This only builds the test executable
     // but does not run it.
     const unit_tests = b.addTest(.{
-        .root_source_file = .{ .path = "src/main.zig" },
+        .root_source_file = b.path("src/main.zig"),
         .target = target,
         .optimize = optimize,
     });
