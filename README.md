@@ -102,7 +102,8 @@ sudo systemctl start mongod
 Import the Sample Data Set
 
 ```sh
-curl https://raw.githubusercontent.com/mcampo2/mongodb-sample-databases/master/sample_airbnb/listingsAndReviews.json | mongoimport -h localhost:27017 --db sample_airbnb --collection listings
+curl "https://raw.githubusercontent.com/mcampo2/mongodb-sample-databases/master/sample_airbnb/listingsAndReviews.json" \
+ | mongoimport -h localhost:27017 --db sample_airbnb --collection listings
 ```
 
 ### Build and run the example
